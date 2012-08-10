@@ -1,0 +1,52 @@
+/*
+ *  Default application stylesheet
+ */
+
+body {
+  #header {}
+  #section {
+    width: 100%;
+
+    #dashboard {
+      float: left;
+      margin-left: 28%;
+      min-height: 700px;
+      width: 70%;
+      position: relative;
+      background-color: rgba(255, 255, 255, 0.95);
+      z-index: 1;
+
+      #dashboard-view {
+        #drop-target {
+          border: 4px dashed #DDD;
+          width: 180px;
+          height: 180px;
+          border-radius: 5px;
+          position: absolute;
+          top: 40%;
+          left: 40%;
+
+          center {
+            position: absolute;
+            top: 45%;
+            z-index: 10001;
+            vertical-align: middle;
+          }
+        }
+      }
+
+    }
+
+    #sidebar {
+      background-color: #F5F5FF;
+      border-right: 1px solid #E3E3E3;
+      position: fixed;
+      width: 28%;
+      min-width: 300px;
+      min-height: 100%;
+      padding-left: 2%;
+      z-index: 2;
+    }
+  }
+  #footer {}
+}

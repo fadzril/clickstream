@@ -1,0 +1,20 @@
+<div id="content">
+  <h2 class="upper">Dashboard</h2>
+  <hr class="soften"/>
+  <ul class="nav nav-list">
+    <li class="nav-header">
+      Internal Keyword
+    </li>
+    {{#each this.data}}
+      <li class="" draggable="true">
+        <a href="#" data-id="{{group}}"><span class="label label-info">{{name}}</span></a>
+      </li>
+    {{/each}}
+    <li class="nav-header">
+      External
+    </li>
+    <li>
+      <a href="#">{{page}}</a>
+    </li>
+  </ul>
+</div>
