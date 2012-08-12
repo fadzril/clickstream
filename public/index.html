@@ -14,10 +14,25 @@
   <script>require('initialize');</script>
 </head>
 <body>
-  <header id="header"></header>
   <section id="section">
-    <article id="dashboard"></article>
-    <aside id="sidebar"></aside>
+    <article id="dashboard">
+      <header id="settings">
+        <span class="pull-left"><i class="icon-th-list icon-white"></i></span>
+        <span class="pull-right"><i class="icon-plus icon-white"></i></span>
+      </header>
+      <section class="dashboard"></section>
+    </article>
+    <article id="sidebar">
+      <header id="header">
+        <h2 class="brand upper hidden">Dashboard</h2>
+        <ul class="navigation">
+          <li><a href="#"><i class="icon-list-alt icon-white"></i>Pages</a></li>
+          <li><a href="#"><i class="icon-search icon-white"></i>Search</a></li>
+          <li><a href="#"><i class="icon-screenshot icon-white"></i>Nodes</a></li>
+        </ul>
+      </header>
+      <aside class="sidebar"></aside>
+    </article>
   </section>
   <footer id="footer"></footer>
 </body>

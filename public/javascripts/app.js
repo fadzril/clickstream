@@ -123,8 +123,8 @@ window.require.define({"lib/router": function(exports, require, module) {
       var dashboard = Application.View.Dashboard,
           sidebar   = Application.View.Sidebar;
 
-      $('#dashboard').html(dashboard.render().el);
-      $('#sidebar').html(sidebar.el);
+      $('.dashboard').html(dashboard.render().el);
+      $('.sidebar').html(sidebar.el);
     }
   });
   
@@ -293,7 +293,7 @@ window.require.define({"views/templates/dashboard": function(exports, require, m
     var foundHelper, self=this;
 
 
-    return "<div id=\"drop-target\">\n    <center>Drop your target here!</center>\n</div>";});
+    return "<div id=\"placeholder\">\n  <div class=\"msg\">\n    <h3>Start dragging any node from sidebar into target</h3>\n    <hr class=\"soften\"/>\n    <div id=\"drop-target\">\n        <center>Drop your target here!</center>\n    </div>\n    <hr class=\"soften\"/>\n    <h4>Or simply double click which item you like</h4>\n  </div>\n</div>";});
 }});
 
 window.require.define({"views/templates/home": function(exports, require, module) {
@@ -309,7 +309,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     stack1 = foundHelper || depth0.group;
     if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
     else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "group", { hash: {} }); }
-    buffer += escapeExpression(stack1) + "\"><span class=\"label label-info\">";
+    buffer += escapeExpression(stack1) + "\"><span class=\"\">";
     foundHelper = helpers.name;
     stack1 = foundHelper || depth0.name;
     if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
@@ -317,7 +317,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     buffer += escapeExpression(stack1) + "</span></a>\n      </li>\n    ";
     return buffer;}
 
-    buffer += "<div id=\"content\">\n  <h2 class=\"upper\">Dashboard</h2>\n  <hr class=\"soften\"/>\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Internal Keyword\n    </li>\n    ";
+    buffer += "<div id=\"content\">\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Pages <i class=\"icon-plus-sign pull-right\"></i>\n    </li>\n    ";
     stack1 = depth0.data;
     stack2 = helpers.each;
     tmp1 = self.program(1, program1, data);
@@ -326,12 +326,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     tmp1.inverse = self.noop;
     stack1 = stack2.call(depth0, stack1, tmp1);
     if(stack1 || stack1 === 0) { buffer += stack1; }
-    buffer += "\n    <li class=\"nav-header\">\n      External\n    </li>\n    <li>\n      <a href=\"#\">";
-    foundHelper = helpers.page;
-    stack1 = foundHelper || depth0.page;
-    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
-    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "page", { hash: {} }); }
-    buffer += escapeExpression(stack1) + "</a>\n    </li>\n  </ul>\n</div>\n";
+    buffer += "\n  </ul>\n</div>\n";
     return buffer;});
 }});
 

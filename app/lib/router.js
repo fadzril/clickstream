@@ -9,7 +9,7 @@ module.exports = Backbone.Router.extend({
     var dashboard = Application.View.Dashboard,
         sidebar   = Application.View.Sidebar;
 
-    $('#dashboard').html(dashboard.render().el);
-    $('#sidebar').html(sidebar.el);
+    $('.dashboard').html(dashboard.render().el);
+    $('.sidebar').html(sidebar.el);
   }
 });

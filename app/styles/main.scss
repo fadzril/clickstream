@@ -3,50 +3,124 @@
  */
 
 body {
-  #header {}
+  background: rgba(220, 220, 220, 0.93) url(../images/noise-light.png) top left repeat;
+
+  #header {
+    background: rgba(24, 24, 24, .9) url(../images/noise-big.png) top left repeat;
+    border-right: 1px solid #000;
+    display: inline-block;
+    width: 349px;
+    float: left;
+    clip: rect(0px 3000px 28px 0px);
+    box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;
+
+    .brand {
+      border-bottom: 1px solid #000000;
+    }
+
+    ul.navigation {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid #000;
+      li {
+        float: left;
+        margin: 0;
+        a {
+          border-left: 1px solid #111;
+          border-right: 1px solid #3A3A3A;
+          display: inline-block;
+          padding: 8px 10px;
+          font-size: 10px;
+          font-weight: 600;
+          text-transform: uppercase;
+          text-shadow: 0 1px #000000;
+          color: #999999;
+
+          i {
+            margin-right: 10px;
+          }
+        }
+
+        &:first-child a {
+          border-left: none;
+        }
+        &:last-child a {
+          border-right: none;
+        }
+      }
+    }
+  }
   #section {
     width: 100%;
 
+    #settings {
+      background: rgba(24, 24, 24, .9) url(../images/noise-big.png) top left repeat;
+      border-top: 1px solid #000;
+      border-left: 1px solid #333;
+      display: inline-block;
+      width: 100%;
+      clip: rect(0px 3000px 28px 0px);
+      box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;
+
+      span {
+        padding: 8px 10px;
+      }
+    }
+
     #dashboard {
       float: left;
-      margin-left: 28%;
+      margin-left: 350px;
       min-height: 700px;
-      width: 70%;
+      width: 75%;
       position: relative;
-      background-color: rgba(255, 255, 255, 0.95);
       z-index: 1;
+      border-right: 1px solid rgba(43, 43, 43, 0.4);
 
-      #dashboard-view {
-        #drop-target {
-          border: 4px dashed #DDD;
-          width: 180px;
-          height: 180px;
-          border-radius: 5px;
-          position: absolute;
-          top: 40%;
-          left: 40%;
+      #dashboard-view {}
 
-          center {
-            position: absolute;
-            top: 45%;
-            z-index: 10001;
-            vertical-align: middle;
+      #placeholder {
+        position: absolute;
+        top: 25%;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+
+        .msg {
+          margin: 35px 0 auto;
+          width: 400px;
+          display: inline-block;
+
+          h2, h3, h4 {
+            font-family: 'Georgia', serif;
+            font-weight: 500;
           }
         }
-      }
 
+        #drop-target {
+          padding: 30px;
+        }
+      }
     }
 
     #sidebar {
-      background-color: #F5F5FF;
-      border-right: 1px solid #E3E3E3;
       position: fixed;
-      width: 28%;
-      min-width: 300px;
+      width: 350px;
       min-height: 100%;
-      padding-left: 2%;
       z-index: 2;
+
+      .sidebar {
+        width: 349px;
+        border-left: 1px solid rgba(255, 255, 255, 1);
+        display: inline-block;
+        min-height: 1000px;
+      }
     }
   }
   #footer {}
+
+  .soften {
+    border-top: 1px dashed #CCCCCC;
+    border-bottom: 1px dashed #EEEEEE;
+  }
 }
