@@ -25,7 +25,6 @@ module.exports = View.extend({
     },
 
     render: function() {
-        console.info(this.page);
         this.$el.html(this.template({data: this.data, page: this.page}));
         return this;
     },

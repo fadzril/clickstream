@@ -7,9 +7,13 @@ module.exports = Backbone.Router.extend({
 
   home: function() {
     var dashboard = Application.View.Dashboard,
-        sidebar   = Application.View.Sidebar;
+        sidebar   = Application.View.Sidebar,
+        header    = Application.View.Header;
 
     $('.dashboard').html(dashboard.render().el);
     $('.sidebar').html(sidebar.el);
+    $('#settings').html(header.render().el);
+
+    $('#section').layout({resize: false});
   }
 });

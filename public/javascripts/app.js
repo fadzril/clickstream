@@ -84,17 +84,25 @@ window.require.define({"application": function(exports, require, module) {
       this.Models =  {};
       var sidebar    = require('views/home_view'),
           dashboard  = require('views/dashboard_view'),
+          header     = require('views/header_view'),
           page       = require('models/pages_model'),
           pages      = require('models/pages_collection'),
           router     = require('lib/router');
 
       this.View.Dashboard = new dashboard();
       this.View.Sidebar = new sidebar();
+      this.View.Header = new header();
       this.Router = new router();
+
+      $(window).resize(this.relayout);
 
       if (typeof Object.freeze === 'function') 
         Object.freeze(this);
-    } 
+    },
+
+    relayout: function() {
+      return $('#section').layout({resize: false});
+    }
   }
 
   module.exports = Application;
@@ -121,10 +129,14 @@ window.require.define({"lib/router": function(exports, require, module) {
 
     home: function() {
       var dashboard = Application.View.Dashboard,
-          sidebar   = Application.View.Sidebar;
+          sidebar   = Application.View.Sidebar,
+          header    = Application.View.Header;
 
       $('.dashboard').html(dashboard.render().el);
       $('.sidebar').html(sidebar.el);
+      $('#settings').html(header.render().el);
+
+      $('#section').layout({resize: false});
     }
   });
   
@@ -222,6 +234,54 @@ window.require.define({"views/dashboard_view": function(exports, require, module
   
 }});
 
+window.require.define({"views/header_view": function(exports, require, module) {
+  var Application = require('application');
+  var View = require('./view');
+  var template = require('./templates/header');
+
+  module.exports = View.extend({
+      id: 'dashboard-header-view',
+      template: template,
+      events: {
+          "click .toggle-sidebar" : "sidebar",
+          "click .toggle-details" : "details"
+      },
+
+      initialize: function() {
+          var self = this;
+          _.bindAll(this, 'sidebar', 'details');
+      },
+
+      sidebar: function(e) {
+          e.preventDefault();
+          var sidebar = $('.west');
+          return sidebar
+              .animate({
+                  width: 'toggle'
+              }, {
+                  duration: 500, 
+                  complete: this.relayout, 
+                  step: this.relayout
+              }
+          );
+      },
+
+      details: function() {
+
+      },
+
+      relayout: function() {
+          var section = $('#section');
+          return section.layout({resize: false});
+      },
+
+      afterRender: function() {
+          return this.$('#drop-target').dropArea();
+      }
+  });
+  
+}});
+
 window.require.define({"views/home_view": function(exports, require, module) {
   var Application = require('application');
   var pages       = require('models/pages_collection');
@@ -250,7 +310,6 @@ window.require.define({"views/home_view": function(exports, require, module) {
       },
 
       render: function() {
-          console.info(this.page);
           this.$el.html(this.template({data: this.data, page: this.page}));
           return this;
       },
@@ -296,6 +355,15 @@ window.require.define({"views/templates/dashboard": function(exports, require, m
     return "<div id=\"placeholder\">\n  <div class=\"msg\">\n    <h3>Start dragging any node from sidebar into target</h3>\n    <hr class=\"soften\"/>\n    <div id=\"drop-target\">\n        <center>Drop your target here!</center>\n    </div>\n    <hr class=\"soften\"/>\n    <h4>Or simply double click which item you like</h4>\n  </div>\n</div>";});
 }});
 
+window.require.define({"views/templates/header": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<span class=\"toggle-sidebar pull-left\"><i class=\"icon-th-list icon-white\"></i></span>\n<span class=\"toggle-details pull-right\"><i class=\"icon-plus icon-white\"></i></span>";});
+}});
+
 window.require.define({"views/templates/home": function(exports, require, module) {
   module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
     helpers = helpers || Handlebars.helpers;
@@ -317,7 +385,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     buffer += escapeExpression(stack1) + "</span></a>\n      </li>\n    ";
     return buffer;}
 
-    buffer += "<div id=\"content\">\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Pages <i class=\"icon-plus-sign pull-right\"></i>\n    </li>\n    ";
+    buffer += "<div id=\"content\">\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Pages\n    </li>\n    ";
     stack1 = depth0.data;
     stack2 = helpers.each;
     tmp1 = self.program(1, program1, data);

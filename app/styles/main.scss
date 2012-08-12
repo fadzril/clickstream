@@ -2,6 +2,12 @@
  *  Default application stylesheet
  */
 
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
 body {
   background: rgba(220, 220, 220, 0.93) url(../images/noise-light.png) top left repeat;
 
@@ -53,6 +59,7 @@ body {
   }
   #section {
     width: 100%;
+    height: 100%;
 
     #settings {
       background: rgba(24, 24, 24, .9) url(../images/noise-big.png) top left repeat;
@@ -69,13 +76,11 @@ body {
     }
 
     #dashboard {
-      float: left;
-      margin-left: 350px;
-      min-height: 700px;
+      height: 100%;
       width: 75%;
       position: relative;
-      z-index: 1;
-      border-right: 1px solid rgba(43, 43, 43, 0.4);
+      z-index: 2;
+      border-left: 1px solid rgba(43, 43, 43, 0.2);
 
       #dashboard-view {}
 
@@ -104,16 +109,15 @@ body {
     }
 
     #sidebar {
-      position: fixed;
+      // position: fixed;
+      border-right: 1px solid rgba(255, 255, 255, 1);
       width: 350px;
-      min-height: 100%;
-      z-index: 2;
+      height: 100%;
+      z-index: 1;
 
       .sidebar {
         width: 349px;
-        border-left: 1px solid rgba(255, 255, 255, 1);
         display: inline-block;
-        min-height: 1000px;
       }
     }
   }

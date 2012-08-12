@@ -39,7 +39,12 @@ exports.config =
           'vendor/scripts/bootstrap/bootstrap-popover.js',
           'vendor/scripts/bootstrap/bootstrap-scrollspy.js',
           'vendor/scripts/bootstrap/bootstrap-tab.js',
-          'vendor/scripts/bootstrap/bootstrap-typeahed.js'
+          'vendor/scripts/bootstrap/bootstrap-typeahed.js',
+
+          # jLayout
+          'vendor/scripts/jlayout/lib/jquery.sizes.js',
+          'vendor/scripts/jlayout/lib/jquery.border.js',
+          'vendor/scripts/jlayout/lib/jquery.jlayout.js'
         ]
 
     stylesheets:
