@@ -15,7 +15,7 @@ body {
     background: rgba(24, 24, 24, .9) url(../images/noise-big.png) top left repeat;
     border-right: 1px solid #000;
     display: inline-block;
-    width: 349px;
+    width: 351px;
     float: left;
     clip: rect(0px 3000px 28px 0px);
     box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;
@@ -109,15 +109,32 @@ body {
     }
 
     #sidebar {
-      // position: fixed;
       border-right: 1px solid rgba(255, 255, 255, 1);
       width: 350px;
       height: 100%;
       z-index: 1;
 
       .sidebar {
-        width: 349px;
         display: inline-block;
+        width: 100%;
+
+        ul.nav-list {
+          li {
+            &.nav-header {
+              padding: 5px 15px;
+            }
+            &.divider {
+              margin: 0 -15px;
+              background-color: rgba(43, 43, 43, 0.2);
+              border-bottom: 1px solid rgba(255, 255, 255, 1) ;
+            }
+            a {
+              padding: 5px 15px;
+            }
+          }
+        }
+
+        
       }
     }
   }

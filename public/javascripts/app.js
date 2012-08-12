@@ -385,7 +385,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     buffer += escapeExpression(stack1) + "</span></a>\n      </li>\n    ";
     return buffer;}
 
-    buffer += "<div id=\"content\">\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Pages\n    </li>\n    ";
+    buffer += "<div id=\"content\">\n  <ul class=\"nav nav-list\">\n    <li class=\"nav-header\">\n      Pages\n    </li>\n    <li class=\"divider\"></li>\n    ";
     stack1 = depth0.data;
     stack2 = helpers.each;
     tmp1 = self.program(1, program1, data);

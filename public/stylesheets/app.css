@@ -4659,7 +4659,7 @@ body {
     background: rgba(24, 24, 24, 0.9) url(../images/noise-big.png) top left repeat;
     border-right: 1px solid #000;
     display: inline-block;
-    width: 349px;
+    width: 351px;
     float: left;
     clip: rect(0px 3000px 28px 0px);
     box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, 0.06) inset; }
@@ -4729,8 +4729,16 @@ body {
       height: 100%;
       z-index: 1; }
       body #section #sidebar .sidebar {
-        width: 349px;
-        display: inline-block; }
+        display: inline-block;
+        width: 100%; }
+        body #section #sidebar .sidebar ul.nav-list li.nav-header {
+          padding: 5px 15px; }
+        body #section #sidebar .sidebar ul.nav-list li.divider {
+          margin: 0 -15px;
+          background-color: rgba(43, 43, 43, 0.2);
+          border-bottom: 1px solid white; }
+        body #section #sidebar .sidebar ul.nav-list li a {
+          padding: 5px 15px; }
   body .soften {
     border-top: 1px dashed #CCCCCC;
     border-bottom: 1px dashed #EEEEEE; }
