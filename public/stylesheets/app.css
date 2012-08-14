@@ -4699,7 +4699,10 @@ body {
       display: inline-block;
       width: 100%;
       clip: rect(0px 3000px 28px 0px);
-      box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, 0.06) inset; }
+      box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, 0.06) inset;
+      float: left;
+      position: relative;
+      z-index: 100001; }
       body #section #settings span {
         padding: 8px 10px; }
     body #section #dashboard {
@@ -4708,9 +4711,16 @@ body {
       position: relative;
       z-index: 2;
       border-left: 1px solid rgba(43, 43, 43, 0.2); }
+      body #section #dashboard #graph {
+        z-index: 1001;
+        position: relative;
+        background: #fdfdfd url(../images/subtle-dots.png) top left repeat; }
+        body #section #dashboard #graph .tooltip {
+          background: black;
+          color: white; }
       body #section #dashboard #placeholder {
         position: absolute;
-        top: 25%;
+        top: 15%;
         text-align: center;
         display: inline-block;
         width: 100%; }
@@ -4722,7 +4732,13 @@ body {
             font-family: 'Georgia', serif;
             font-weight: 500; }
         body #section #dashboard #placeholder #drop-target {
-          padding: 30px; }
+          padding: 30px;
+          height: 150px;
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4) inset;
+          border-radius: 5px;
+          background: #fdfdfd url(../images/subtle-dots.png) top left repeat;
+          border: none;
+          border-bottom: 1px solid #FEFEFE; }
     body #section #sidebar {
       border-right: 1px solid white;
       width: 350px;
@@ -4742,3 +4758,152 @@ body {
   body .soften {
     border-top: 1px dashed #CCCCCC;
     border-bottom: 1px dashed #EEEEEE; }
+  body .popover .arrow {
+    top: 50%;
+    right: 0;
+    margin-top: -5px;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid black; }
+  body .contextMenu {
+    position: absolute;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 0px;
+    margin: 0px;
+    display: none;
+    border-radius: 30px; }
+    body .contextMenu li {
+      list-style: none;
+      padding: 3px 10px;
+      margin: 0px;
+      float: left; }
+      body .contextMenu li a {
+        color: #EEE;
+        font-weight: bold;
+        font-size: 10px;
+        text-shadow: 0 1px #000000;
+        text-transform: uppercase;
+        text-decoration: none; }
+  body circle.node {
+    stroke: #FFF;
+    stroke-width: 1.5px; }
+  body path.links {
+    stroke: #444;
+    stroke-opacity: .6;
+    stroke-width: 1;
+    fill: transparent;
+    stroke-dashoffset: 4;
+    stroke-opacity: .6; }
+  body path.center {
+    stroke: red;
+    stroke-dasharray: 3 3;
+    stroke-opacity: .6; }
+.tipsy {
+  font-size: 10px;
+  position: absolute;
+  padding: 5px;
+  z-index: 100000; }
+
+.tipsy-inner {
+  background-color: #000;
+  color: #FFF;
+  max-width: 200px;
+  padding: 5px 8px 4px 8px;
+  text-align: center; }
+
+/* Rounded corners */
+.tipsy-inner {
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px; }
+
+/* Uncomment for shadow */
+/*.tipsy-inner { box-shadow: 0 0 5px #000000; -webkit-box-shadow: 0 0 5px #000000; -moz-box-shadow: 0 0 5px #000000; }*/
+.tipsy-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  line-height: 0;
+  border: 5px dashed #000; }
+
+/* Rules to colour arrows */
+.tipsy-arrow-n {
+  border-bottom-color: #000; }
+
+.tipsy-arrow-s {
+  border-top-color: #000; }
+
+.tipsy-arrow-e {
+  border-left-color: #000; }
+
+.tipsy-arrow-w {
+  border-right-color: #000; }
+
+.tipsy-n .tipsy-arrow {
+  top: 0px;
+  left: 50%;
+  margin-left: -5px;
+  border-bottom-style: solid;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-nw .tipsy-arrow {
+  top: 0;
+  left: 10px;
+  border-bottom-style: solid;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-ne .tipsy-arrow {
+  top: 0;
+  right: 10px;
+  border-bottom-style: solid;
+  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-s .tipsy-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-top-style: solid;
+  border-bottom: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-sw .tipsy-arrow {
+  bottom: 0;
+  left: 10px;
+  border-top-style: solid;
+  border-bottom: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-se .tipsy-arrow {
+  bottom: 0;
+  right: 10px;
+  border-top-style: solid;
+  border-bottom: none;
+  border-left-color: transparent;
+  border-right-color: transparent; }
+
+.tipsy-e .tipsy-arrow {
+  right: 0;
+  top: 50%;
+  margin-top: -5px;
+  border-left-style: solid;
+  border-right: none;
+  border-top-color: transparent;
+  border-bottom-color: transparent; }
+
+.tipsy-w .tipsy-arrow {
+  left: 0;
+  top: 50%;
+  margin-top: -5px;
+  border-right-style: solid;
+  border-left: none;
+  border-top-color: transparent;
+  border-bottom-color: transparent; }

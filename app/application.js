@@ -10,12 +10,14 @@ Application = {
         header     = require('views/header_view'),
         page       = require('models/pages_model'),
         pages      = require('models/pages_collection'),
-        router     = require('lib/router');
+        router     = require('lib/router'),
+        graph      = require('./graph');
 
     this.View.Dashboard = new dashboard();
-    this.View.Sidebar = new sidebar();
-    this.View.Header = new header();
-    this.Router = new router();
+    this.View.Sidebar   = new sidebar();
+    this.View.Header    = new header();
+    this.Router         = new router();
+    this.Graph          = new graph();
 
     $(window).resize(this.relayout);
 

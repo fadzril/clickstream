@@ -2,5 +2,5 @@ var Application = require('application');
 
 $(function() {
     Application.initialize();
-    Backbone.history.start();
+    window.history = Backbone.history.start();
 });

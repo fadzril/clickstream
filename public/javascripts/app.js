@@ -87,12 +87,14 @@ window.require.define({"application": function(exports, require, module) {
           header     = require('views/header_view'),
           page       = require('models/pages_model'),
           pages      = require('models/pages_collection'),
-          router     = require('lib/router');
+          router     = require('lib/router'),
+          graph      = require('./graph');
 
       this.View.Dashboard = new dashboard();
-      this.View.Sidebar = new sidebar();
-      this.View.Header = new header();
-      this.Router = new router();
+      this.View.Sidebar   = new sidebar();
+      this.View.Header    = new header();
+      this.Router         = new router();
+      this.Graph          = new graph();
 
       $(window).resize(this.relayout);
 
@@ -109,12 +111,282 @@ window.require.define({"application": function(exports, require, module) {
   
 }});
 
+window.require.define({"graph": function(exports, require, module) {
+  var Application = require('application');
+
+  module.exports = Graph = function Graph() {
+      this.remove = false;
+      this.append = false;
+      return this;
+  };
+
+  Graph.prototype.init = function() {
+      var w = 900;
+      var h = 500;
+      var c = d3.scale.category20();
+      var e = Array.prototype.slice.call(arguments)[0];
+
+      this.vis = d3.select("#graph")
+          .append("svg:svg")
+          .attr("width", '100%')
+          .attr("height", '100%')
+          .attr("pointer-events", "all")
+          .append('svg:g')
+          .call(d3.behavior.zoom().on("zoom", this.update))
+
+      //~ Arrow Marker
+      this.vis.append("svg:defs")
+          .selectAll("marker")
+          .data(["center"])
+          .enter().append("svg:marker")
+          .attr("id", String)
+          .attr("viewBox", "0 -5 10 10")
+          .attr("refX", 10)
+          .attr("refY", -1)
+          .attr("markerWidth", 10)
+          .attr("markerHeight", 10)
+          .attr("orient", "auto")
+          .append("svg:path")
+          .attr("d", "M0,-5L10,0L0,5");
+
+      this.force = d3.layout.force()
+          .gravity(.05)
+          .charge(-200)
+          .linkDistance( 120 )
+          .size([w, h]);
+
+      this.colorize = c;
+      this.nodes = this.force.nodes();
+      this.links = this.force.links();
+      
+  }
+
+  Graph.prototype.request = function(url, type) {
+      var self = this;
+      var target = Array.prototype.slice.call(arguments)[1] || '#graph';
+      $.getJSON(url, function(data) {
+          if (!type) {
+              $.when(self.init(target)).done(function() {
+                  self.nodeCreate(data.nodes);
+                  self.linkCreate(data.links);
+              })
+          } else {
+              self.nodeCreate(data.nodes);
+              self.linkCreate(data.links);
+          }
+      });
+  }
+
+  Graph.prototype.nodeCreate = function(data) {
+      var self = this;
+      data.forEach(function(item, index) {
+          var node = self.nodeFindIndex(self, item.group);
+          if (node === undefined) {
+              self.nodes.push({
+                  "id": item.group,
+                  "name": item.name
+              })
+          }
+      })
+
+      return this.update();
+  };
+
+  Graph.prototype.nodeFind = function(context, idx) {
+      for (var i in this.nodes) {
+          if (context.nodes[i]["id"] === idx )
+              return this.nodes[i];
+      }
+  }
+
+  Graph.prototype.nodeFindIndex = function(context, idx) {
+      for (var i in context.nodes) {
+          if (context.nodes[i]["id"] === idx)
+              return i;
+      }
+  }
+
+  Graph.prototype.nodeRemove = function(id) {
+      var self = this;
+      var index = 0;
+      var node = self.nodeFind(self, id);
+      this.links.forEach(function(link, idx) {
+          if (link === node) {
+              var uid = link['target']['id'];
+              if (uid !== undefined) 
+                  self.nodes.splice(self.nodeFindIndex(self, uid), 1);
+          }
+      });
+      /*
+      while(index < this.links.length) {
+          if (
+              this.links[index]['source'] === node ||
+              this.links[index]['target'] === node
+          ) this.links.splice(index, 1);
+      }
+      */
+      this.nodes.splice(self.nodeFindIndex(self, id), 1);
+      this.remove = true;
+      return this.update();
+  }
+
+  Graph.prototype.linkCreate = function(data) {
+      var self = this;
+      data.forEach(function(item, index) {
+          var add = true;
+          if (self.links.length) {
+              self.links.forEach(function(link, idx) {
+                  if (
+                      link.source.id === item.source &&
+                      link.target.id === item.target
+                  ) { add = false; }
+              })
+          }
+
+          if (add) self.links.push(item)
+          else add = true;
+      })
+      return this.update();
+  }
+
+  Graph.prototype.update = function() {
+      var self = this;
+
+      if (this.remove) {
+          this.vis.selectAll("path.link").remove()
+          this.remove = false;
+      }
+
+      var path = this.vis.selectAll("path.link")
+          .data(this.links);
+
+      var node = this.vis.selectAll("circle.node")
+          .data(this.nodes, function(d) {
+              return d.id;
+          });
+
+      var circle = node.enter().append("circle")
+          .attr("class", "node")
+          .attr("r", 15)
+          .style("fill", function(d) {
+              return self.colorize(d.id);
+          })
+          .call(self.force.drag);
+
+      path.enter().append("path")
+          .attr("class", "links")
+          .attr("marker-end", "url(#center)")
+
+      path.append("title")
+          .text(function(d) {
+              return d.name;
+          });
+
+      circle.append("svg:text")
+          .attr("text-anchor", "middle")
+          .attr("fill","black")
+          .style("pointer-events", "none")
+          .attr("font-size", function(d) { if (d.color == '#b94431') { return 10+(d.size*2) + 'px'; } else { return "9px"; } } )
+          .attr("font-weight", function(d) { if (d.color == '#b94431') { return "bold"; } else { return "100"; } } )
+          .text( function(d) { if (d.color == '#b94431') { return d.id + ' (' + d.size + ')';} else { return d.id;} } ) ;
+
+      circle.append("title")
+          .text(function(d) {
+              return d.name;
+          });
+
+      node.exit().remove();
+
+      this.force.on("tick", function(d) {
+          path.attr("d", function(d) {
+              var dx = d.target.x - d.source.x,
+                  dy = d.target.y - d.source.y,
+                  dr = Math.sqrt(dx * dx + dy * dy);
+              return "M" + d.source.x + "," + d.source.y + "A" + dr + "," + dr + " 0 0,1 " + d.target.x + "," + d.target.y;
+          });
+
+          node.attr(
+              "transform", function(d) {
+                  return "translate(" + d.x + "," + d.y + ")"
+              }
+          )
+      });
+      this.force.start();
+
+      return this.eventsCreate(circle);
+  }
+
+  Graph.prototype.tips = function() {
+      var tooltip = d3.select('#graph').append("div")
+          .attr("class", "tooltip")
+          .style("opacity", -1);
+
+      this.el = tooltip;
+
+      this.showTooltip = function(text) {
+          tooltip.text(text)
+              .transition()
+              .duration(500)
+              .style("opacity", 1)
+      }
+
+      this.moveTooltip = function() {
+          var pos = $(d3.event.currentTarget).position();
+          tooltip.style("left", pos.left + 5 +  "px")
+              .style("top", pos.top + 5 + "px")
+
+      }
+
+      this.hideTooltip = function() {
+          tooltip.transition()
+              .duration(500)
+              .style("opacity", -1)
+      }
+  }
+
+  Graph.prototype.eventsCreate = function(circle) {
+      var self = this;
+      return circle
+          .on('mouseover', self.focusHandler)
+          .on('click', self.clickHandler);
+  };
+
+
+  Graph.prototype.clickHandler = function(d) {
+      var self = d;
+      $.extend(true, $.fn.popover.defaults, {
+          placement: function() {
+              return { "top": d.y, "left": d.x }
+          }
+      });
+  }
+
+  Graph.prototype.focusHandler = function(d) {
+      var view = Application.View.Dashboard;
+      return $(this).contextMenu({ menu: 'menu' },
+          function(action, el, pos) {
+              if (action !== "") {
+                  switch (action) {
+                  case 'create':
+                      view.append = true;
+                      return view.renderGraph(d.id);
+                  break;
+                  case 'remove':
+                      return view.removeGraphNode(d.id);
+                  break;
+                  }
+              }
+          }
+      );
+  }
+}});
+
 window.require.define({"initialize": function(exports, require, module) {
   var Application = require('application');
 
   $(function() {
       Application.initialize();
-      Backbone.history.start();
+      window.history = Backbone.history.start();
   });
   
 }});
@@ -212,7 +484,7 @@ window.require.define({"views/dashboard_view": function(exports, require, module
 
       initialize: function() {
           var self = this;
-          _.bindAll(this, 'drop');
+          _.bindAll(this, 'drop', 'renderGraph');
       },
 
       drop: function(e) {
@@ -224,7 +496,22 @@ window.require.define({"views/dashboard_view": function(exports, require, module
                   return '<span class=\"label label-warn\">'+value+'</span>';
               },
               uid = wrap(data.uid);
-          return $(e.target).html([data.title, uid].join('<br/>'));
+
+
+          this.$('h4').html([data.title, uid].join('<br/>'));
+          this.renderGraph();
+      },
+
+      renderGraph: function(uid) {
+          var graph = Application.Graph;
+          (uid !== undefined) ?
+              graph.request(uid + '.json', true) :
+              graph.request('miserables.json')
+      },
+
+      removeGraphNode: function(uid) {
+          var graph = Application.Graph;
+          return graph.nodeRemove(uid);
       },
 
       afterRender: function() {
@@ -294,11 +581,12 @@ window.require.define({"views/home_view": function(exports, require, module) {
       template: template,
 
       events: {
-          "dragstart .nav li a": "dragStart"
+          "dragstart .nav li a": "dragStart",
+          "click .nav li a"    : "reset"
       },
 
       initialize: function() {
-          _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne');
+          _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne', 'reset');
           this.collection = new pages();
           this.getRenderData();
       },
@@ -329,6 +617,14 @@ window.require.define({"views/home_view": function(exports, require, module) {
           return e.originalEvent.dataTransfer.setData('Text', item);
       },
 
+      reset: function() {
+          var graph = $('#graph');
+          if (graph.length) {
+              graph.slideUp();
+          }
+          Application.View.Dashboard.render();
+      },
+
       addEach: function(item) {
           var nodes = _.pluck(item.toJSON(), 'nodes');
           this.data = _.first(nodes);
@@ -352,7 +648,7 @@ window.require.define({"views/templates/dashboard": function(exports, require, m
     var foundHelper, self=this;
 
 
-    return "<div id=\"placeholder\">\n  <div class=\"msg\">\n    <h3>Start dragging any node from sidebar into target</h3>\n    <hr class=\"soften\"/>\n    <div id=\"drop-target\">\n        <center>Drop your target here!</center>\n    </div>\n    <hr class=\"soften\"/>\n    <h4>Or simply double click which item you like</h4>\n  </div>\n</div>";});
+    return "<div id=\"placeholder\">\n  <div class=\"msg\">\n    <h3>Start dragging any node from sidebar into target</h3>\n    <h4>Drop your target inside box below</h4>\n    <hr class=\"soften\"/>\n    <div id=\"drop-target\" class=\"well\">\n        <center></center>\n    </div>\n    <hr class=\"soften\"/>\n  </div>\n</div>\n<div id=\"graph\"></div>";});
 }});
 
 window.require.define({"views/templates/header": function(exports, require, module) {
@@ -377,7 +673,7 @@ window.require.define({"views/templates/home": function(exports, require, module
     stack1 = foundHelper || depth0.group;
     if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
     else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "group", { hash: {} }); }
-    buffer += escapeExpression(stack1) + "\"><span class=\"\">";
+    buffer += escapeExpression(stack1) + "\"><span class=\"label label-info\">";
     foundHelper = helpers.name;
     stack1 = foundHelper || depth0.name;
     if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }

@@ -23,9 +23,11 @@ exports.config =
           'vendor/scripts/console-helper.js',
           'vendor/scripts/jquery-1.7.2.js',
           'vendor/scripts/jquery.drop.js',
+          'vendor/scripts/jquery.menu.js',
           'vendor/scripts/underscore-1.3.1.js',
           'vendor/scripts/backbone-0.9.2.js',
           'vendor/scripts/backbone-mediator.js',
+          'vendor/scripts/d3.v2.js',
 
           # Twitter Bootstrap jquery plugins
           'vendor/scripts/bootstrap/bootstrap-transition.js',
@@ -43,8 +45,9 @@ exports.config =
 
           # jLayout
           'vendor/scripts/jlayout/lib/jquery.sizes.js',
-          'vendor/scripts/jlayout/lib/jquery.border.js',
+          'vendor/scripts/jlayout/lib/jlayout.border.js',
           'vendor/scripts/jlayout/lib/jquery.jlayout.js'
+
         ]
 
     stylesheets:

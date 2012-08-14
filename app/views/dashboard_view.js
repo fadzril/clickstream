@@ -11,7 +11,7 @@ module.exports = View.extend({
 
     initialize: function() {
         var self = this;
-        _.bindAll(this, 'drop');
+        _.bindAll(this, 'drop', 'renderGraph');
     },
 
     drop: function(e) {
@@ -23,7 +23,22 @@ module.exports = View.extend({
                 return '<span class=\"label label-warn\">'+value+'</span>';
             },
             uid = wrap(data.uid);
-        return $(e.target).html([data.title, uid].join('<br/>'));
+
+
+        this.$('h4').html([data.title, uid].join('<br/>'));
+        this.renderGraph();
+    },
+
+    renderGraph: function(uid) {
+        var graph = Application.Graph;
+        (uid !== undefined) ?
+            graph.request(uid + '.json', true) :
+            graph.request('miserables.json')
+    },
+
+    removeGraphNode: function(uid) {
+        var graph = Application.Graph;
+        return graph.nodeRemove(uid);
     },
 
     afterRender: function() {

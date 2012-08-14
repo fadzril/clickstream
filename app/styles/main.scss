@@ -2,6 +2,8 @@
  *  Default application stylesheet
  */
 
+// @include 'tipsy';
+
 html, body {
   height: 100%;
   width: 100%;
@@ -69,6 +71,9 @@ body {
       width: 100%;
       clip: rect(0px 3000px 28px 0px);
       box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;
+      float: left;
+      position: relative;
+      z-index: 100001;
 
       span {
         padding: 8px 10px;
@@ -82,11 +87,21 @@ body {
       z-index: 2;
       border-left: 1px solid rgba(43, 43, 43, 0.2);
 
-      #dashboard-view {}
+      #graph {
+        z-index: 1001;
+        position: relative;
+        background: #FDFDFD url(../images/subtle-dots.png) top left repeat;
+
+        .tooltip {
+          background: black;
+          color: white;
+        }
+
+      }
 
       #placeholder {
         position: absolute;
-        top: 25%;
+        top: 15%;
         text-align: center;
         display: inline-block;
         width: 100%;
@@ -104,6 +119,12 @@ body {
 
         #drop-target {
           padding: 30px;
+          height: 150px;
+          box-shadow: 0 1px 5px rgba(0, 0, 0, 0.4) inset;
+          border-radius: 5px;
+          background: #FDFDFD url(../images/subtle-dots.png) top left repeat;
+          border: none;
+          border-bottom: 1px solid #FEFEFE;
         }
       }
     }
@@ -133,8 +154,6 @@ body {
             }
           }
         }
-
-        
       }
     }
   }
@@ -143,5 +162,62 @@ body {
   .soften {
     border-top: 1px dashed #CCCCCC;
     border-bottom: 1px dashed #EEEEEE;
+  }
+
+  .popover {
+    .arrow {
+      top: 50%;
+      right: 0;
+      margin-top: -5px;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+      border-left: 5px solid black;
+    }
+  }
+
+  .contextMenu {
+    position: absolute;
+    z-index: 99999;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 0px;
+    margin: 0px;
+    display: none;
+    border-radius: 30px;
+
+    li {
+      list-style: none;
+      padding: 3px 10px;
+      margin: 0px;
+      float: left;
+
+      a {
+        color: #EEE;
+        font-weight: bold;
+        font-size: 10px;
+        text-shadow: 0 1px #000000;
+        text-transform: uppercase;
+        text-decoration: none;
+      }
+    }
+  }
+
+  circle.node {
+    stroke: #FFF;
+    stroke-width: 1.5px;
+  }
+
+  path.links {
+    stroke: #444;
+    stroke-opacity: .6;
+    stroke-width: 1;
+    fill: transparent;
+    stroke-dashoffset: 4;
+    stroke-opacity: .6;
+  }
+
+  path.center {
+    stroke: red;
+    stroke-dasharray : 3 3;
+    stroke-opacity: .6;
   }
 }

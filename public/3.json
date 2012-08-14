@@ -1,0 +1,60 @@
+{
+    "nodes": [
+        {
+            "name": "Compare-Show", 
+            "group": 0
+        },
+        {
+            "name": "ViewStandardCatalog-ProductPaging ", 
+            "group": 1
+        },
+        {
+            "name": "ViewSuggestSearch-Suggest",
+            "group": 2
+        },
+        {
+            "name": "ViewProductAccessories-ProductAccessoriesProducts",
+            "group": 3
+        },
+        {
+            "name": "CorePageAdapter-GetBreadcrumb",
+            "group": 4
+        },
+        {
+            "name": "Meganav-Menu",
+            "group": 5
+        }
+    ],
+    "links": [
+        {
+            "source": 0,
+            "target": 1,
+            "value":1,
+            "isingle":"no"
+        },
+        {
+            "source":0 ,
+            "target": 3,
+            "value":1,
+            "isingle":"no"
+        },
+        {
+            "source":0 ,
+            "target": 2,
+            "value":3,
+            "isingle":"no"
+        },
+        {
+            "source": 3,
+            "target": 4,
+            "value":223,
+            "isingle":"no"
+        },
+        {
+            "source":3 ,
+            "target":5,
+            "value":3,
+            "isingle":"no"
+        }
+    ]
+}

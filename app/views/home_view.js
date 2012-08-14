@@ -9,11 +9,12 @@ module.exports = View.extend({
     template: template,
 
     events: {
-        "dragstart .nav li a": "dragStart"
+        "dragstart .nav li a": "dragStart",
+        "click .nav li a"    : "reset"
     },
 
     initialize: function() {
-        _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne');
+        _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne', 'reset');
         this.collection = new pages();
         this.getRenderData();
     },
@@ -42,6 +43,14 @@ module.exports = View.extend({
             uid   = $(e.target).data('id'),
             item  = JSON.stringify({'title': title, 'uid': uid});
         return e.originalEvent.dataTransfer.setData('Text', item);
+    },
+
+    reset: function() {
+        var graph = $('#graph');
+        if (graph.length) {
+            graph.slideUp();
+        }
+        Application.View.Dashboard.render();
     },
 
     addEach: function(item) {
