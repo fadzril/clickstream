@@ -44,9 +44,9 @@ exports.config =
           'vendor/scripts/bootstrap/bootstrap-typeahed.js',
 
           # jLayout
-          'vendor/scripts/jlayout/lib/jquery.sizes.js',
-          'vendor/scripts/jlayout/lib/jlayout.border.js',
-          'vendor/scripts/jlayout/lib/jquery.jlayout.js'
+          'vendor/scripts/jquery.sizes.js',
+          'vendor/scripts/jlayout.border.js',
+          'vendor/scripts/jquery.jlayout.js'
 
         ]
 

@@ -311,6 +311,7 @@ window.require.define({"graph": function(exports, require, module) {
               }
           )
       });
+      
       this.force.start();
 
       return this.eventsCreate(circle);
