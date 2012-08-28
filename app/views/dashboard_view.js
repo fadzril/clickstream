@@ -26,14 +26,19 @@ module.exports = View.extend({
 
 
         this.$('h4').html([data.title, uid].join('<br/>'));
-        this.renderGraph();
+        this.renderGraph(data.uid, false);
     },
 
-    renderGraph: function(uid) {
+    renderGraph: function(uid,type) {
         var graph = Application.Graph;
-        (uid !== undefined) ?
-            graph.request(uid + '.json', true) :
-            graph.request('miserables.json')
+        if(uid !== undefined){
+            if (type == true){
+                graph.request('../ajax/clickpathJSONResult.action',uid, type);
+            }
+            else{
+                graph.request('../ajax/controllerAction.action',uid);
+            }
+        }
     },
 
     removeGraphNode: function(uid) {

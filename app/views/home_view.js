@@ -1,6 +1,6 @@
 var Application = require('application');
-var pages       = require('models/pages_collection');
 var page        = require('models/pages_model');
+var pages       = require('models/pages_collection');
 var View        = require('./view');
 var template    = require('./templates/home');
 
@@ -13,19 +13,25 @@ module.exports = View.extend({
         "click .nav li a"    : "reset"
     },
 
-    initialize: function() {
+    initialize: function(options) {
         _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne', 'reset');
-        this.collection = new pages();
+        this.state = (options !== undefined) ? options.page : 'pages';
         this.getRenderData();
     },
 
     getRenderData: function() {
-        this.collection.fetch();
-        this.collection.bind('reset', this.addEach, this);
+        this.collection = Application.Collections[this.state] !== undefined ? 
+            Application.Collections[this.state] : new pages();
+
+        if (!this.collection.toJSON().length) {
+            this.collection.fetch();
+            this.collection.bind('reset', this.addEach, this);
+        }
         return this;
     },
 
     render: function() {
+        this.data = this.collection.toJSON();
         this.$el.html(this.template({data: this.data, page: this.page}));
         return this;
     },
@@ -54,9 +60,9 @@ module.exports = View.extend({
     },
 
     addEach: function(item) {
-        var nodes = _.pluck(item.toJSON(), 'nodes');
-        this.data = _.first(nodes);
-        _(this.data).each(this.addOne);
+        Application.Collections.pages.add(_.first(_.pluck(item.toJSON(), 'initalNodes')));
+        Application.Collections.keyword.add(_.first(_.pluck(item.toJSON(), 'initialKeywordNode')));
+        Application.Collections.product.add(_.first(_.pluck(item.toJSON(), 'initialProductNode')));
         return this.render();
     },
 
