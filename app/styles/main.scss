@@ -78,6 +78,14 @@ body {
       span {
         padding: 8px 10px;
       }
+
+      .toggle-details {
+        cursor: pointer;
+
+        &::hover {
+          opacity: 0.8;
+        }
+      }
     }
 
     #dashboard {
@@ -86,6 +94,34 @@ body {
       position: relative;
       z-index: 2;
       border-left: 1px solid rgba(43, 43, 43, 0.2);
+
+      #donut-view {
+        position: absolute;
+        top: 30px;
+        left: 0;
+        z-index: 10001;
+        background: rgba(0, 0, 0, 0.55);
+        width: 100%;
+        padding: 15px;
+
+        #donut {
+          padding-top: 1em;
+        }
+
+        ul {
+          list-style: none;
+          li {
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #666;
+            color: #EEE;
+
+            h3 {
+              text-shadow: 0 1px #000;
+            }
+          }
+        }
+      }
 
       #graph {
         z-index: 1001;
