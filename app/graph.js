@@ -1,4 +1,5 @@
 var Application = require('application');
+var DonutView   = require('views/donut_view');
 
 module.exports = Graph = function Graph() {
     this.remove = false;
@@ -351,6 +352,40 @@ Graph.prototype.clickHandler = function(d) {
             return { "top": d.y, "left": d.x }
         }
     });
+    
+    var links = Application.Graph.links;
+        color = Application.Graph.colorize;
+        source = _(_(links).pluck('source')).pluck('index'),
+        target = _(_(links).pluck('target')).pluck('index'),
+        obj = [],
+        generateObj = function(type){
+            var data = type == "source" ? source : target,
+                t = type == "source" ? "target" : "source";
+            
+            data.forEach(function(val,index){
+                if(val == d.index){
+                    var _obj = {
+                            port: "port",
+                            octetTotalCount: links[index].value,
+                            name : links[index][t].name,
+                            color: color(links[index][t].id),
+                            type: t
+                        };
+                    obj.push(_obj);
+                }
+            });
+        };
+
+    _.extend(self, {color:color(self.id)});
+    generateObj("target");
+    generateObj("source");
+
+    if (obj.length) {
+        var view = new DonutView({target: d, data: obj});
+        return $('#dashboard-view').append(view.render().el);
+    }
+
+    return false;
 }
 
 Graph.prototype.focusHandler = function(d) {

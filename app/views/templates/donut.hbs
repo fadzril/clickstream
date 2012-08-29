@@ -1,0 +1,17 @@
+<div class="row-fluid">
+  <div class="span2">
+    <div id="donut"></div>
+  </div>
+  <div class="span10">
+    <div id="donut_info">
+      <ul>
+        {{#each data}}
+        <li>
+          <h3><b style="color:{{color}}">{{percentage}}%</b></h3> 
+          <span>{{urlStart}} --> {{urlEnd}}<br />{{pathView}} <b>path views</b></span>
+        </li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+</div>

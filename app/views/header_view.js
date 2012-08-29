@@ -30,7 +30,11 @@ module.exports = View.extend({
     },
 
     details: function() {
-
+        var details = $('#dashboard-view').find('#donut-view');
+        if(!details.is(':visible'))
+            details.slideDown();
+        else
+            details.slideUp();
     },
 
     relayout: function() {

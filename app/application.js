@@ -14,13 +14,14 @@ Application = {
         PagesCollection   = require('models/pages_collection'),
         KeywordCollection = require('models/keyword_collection'),
         ProductCollection = require('models/product_collection');
+	    donut      = require('./donut');
 
     this.View.Dashboard = new dashboard();
     this.View.Sidebar   = new sidebar();
     this.View.Header    = new header();
     this.Router         = new router();
     this.Graph          = new graph();
-
+    this.Donut          = new donut();
     this.Collections.pages    = new PagesCollection();
     this.Collections.keyword  = new KeywordCollection();
     this.Collections.product  = new ProductCollection();
