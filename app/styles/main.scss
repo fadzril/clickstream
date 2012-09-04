@@ -17,7 +17,7 @@ body {
     background: rgba(24, 24, 24, .9) url(../images/noise-big.png) top left repeat;
     border-right: 1px solid #000;
     display: inline-block;
-    width: 351px;
+    width: 382px;
     float: left;
     clip: rect(0px 3000px 28px 0px);
     box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, .06) inset;
@@ -97,12 +97,19 @@ body {
 
       #donut-view {
         position: absolute;
-        top: 30px;
-        left: 0;
+        top: 35px;
+        right: 0;
         z-index: 10001;
-        background: rgba(0, 0, 0, 0.55);
-        width: 100%;
+        background: rgba(0, 0, 0, 0.75);
+        width: 350px;
         padding: 15px;
+
+        #donut-info {
+          ul {
+            margin: 0;
+            list-style: none;
+          }
+        }
 
         #donut {
           padding-top: 1em;
@@ -167,7 +174,7 @@ body {
 
     #sidebar {
       border-right: 1px solid rgba(255, 255, 255, 1);
-      width: 350px;
+      width: 382px;
       height: 100%;
       z-index: 1;
 

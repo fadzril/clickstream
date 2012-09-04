@@ -6,9 +6,6 @@ module.exports = View.extend({
     id: 'donut-view',
     container: 'dashboard-view',
     template: template,
-    events: {
-        "click #graph cirlce" : "updateInfo"
-    },
 
     initialize: function(options) {
         if (options !== undefined) {
@@ -16,35 +13,7 @@ module.exports = View.extend({
             this.data = options.data;
         }
         var self = this;
-        _.bindAll(this, 'updateInfo', 'getRenderData', 'afterRender');
-    },
-
-    updateInfo: function(d ,data) {
-        var view = Application.Donut;
-            stream = [],
-            c = [],
-            clickStreams = _.pluck(data,"octetTotalCount");
-            totalSum = _.reduce(clickStreams, function(memo, num){ return memo + num; }, 0);
-        data.forEach(function(val, index){
-            obj = {
-                percentage  : ((val.octetTotalCount/totalSum)*100).toFixed(2),
-                pathView    : val.octetTotalCount,
-                urlStart    : val.type == 'source' ? val.name : d.name,
-                urlEnd      : val.type == 'target' ? val.name : d.name,
-                color       : val.type == 'target' ? val.color: d.color
-            }
-            if(val.type === "source"){
-                c.push(index);
-            }
-            stream.push(obj);
-        });
-        if(c.length != 0){
-            var idx = c[0];
-            data[idx].color = stream[idx].color;
-        }
-        this.render(stream);
-        view.init(data);
-        view.updatePie();
+        _.bindAll(this, 'getRenderData', 'afterRender', 'setInfoList');
     },
 
     getRenderData: function() {
@@ -62,6 +31,7 @@ module.exports = View.extend({
                 urlStart    : val.type == 'source' ? val.name : self.target.name,
                 urlEnd      : val.type == 'target' ? val.name : self.target.name,
                 color       : val.type == 'target' ? val.color: self.target.color
+                // color       : self.target.color
             }
             if(val.type === "source"){
                 colors.push(index);
@@ -73,6 +43,7 @@ module.exports = View.extend({
 
     render: function(){
         this.getRenderData();
+        $('#dashboard-view').find('#donut-view').remove();
         this.$el.html(this.template({data: this.collection}));
         this.afterRender();
         return this;
@@ -83,6 +54,22 @@ module.exports = View.extend({
         setTimeout(function() {
             self.donut.init(self.data);
             self.donut.updatePie();
+            self.setInfoList()
         }, 100);
+    },
+
+    setInfoList: function() {
+        var height  = this.$el.parent().height(),
+            list    = this.$('#donut-info'),
+            PIE_HEIGHT = 167,
+            BUFFER_HEIGHT = 100;
+
+        if (list.height() > height) {
+            return list.css({
+                'height': height - (PIE_HEIGHT + BUFFER_HEIGHT),
+                'overflow-x': 'hidden',
+                'overflow-y': 'auto'
+            })
+        }
     }
 });

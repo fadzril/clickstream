@@ -152,23 +152,23 @@ Graph.prototype.linkCreate = function(data) {
 Graph.prototype.update = function() {
     var self = this,
         calculateTopFive = function(d){
-            if(d == 10) 
+            // if(d == 10) 
                 return 1;
-            else
-                return 5 + (5%10-d+1);
+            // else
+            //     return 5 + (5%10-d+1);
         },
         calculateBottomFive = function(d){
             if(d == 1){
                 return 10;
             }
             else if(d == 2){
-                return 4;
+                return 5;
             }
             else if(d==3){
                 return 3;
             }
             else if(d==4){
-                return 2;
+                return 2.5;
             }
             else{
                 return 1;
@@ -368,6 +368,7 @@ Graph.prototype.clickHandler = function(d) {
                             port: "port",
                             octetTotalCount: links[index].value,
                             name : links[index][t].name,
+                            // color: color(links[index][t].id),
                             color: color(links[index][t].id),
                             type: t
                         };

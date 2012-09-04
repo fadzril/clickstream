@@ -4659,7 +4659,7 @@ body {
     background: rgba(24, 24, 24, 0.9) url(../images/noise-big.png) top left repeat;
     border-right: 1px solid #000;
     display: inline-block;
-    width: 351px;
+    width: 382px;
     float: left;
     clip: rect(0px 3000px 28px 0px);
     box-shadow: 0 -1px 0 0 black inset, 0 1px 0 0 rgba(255, 255, 255, 0.06) inset; }
@@ -4705,12 +4705,38 @@ body {
       z-index: 100001; }
       body #section #settings span {
         padding: 8px 10px; }
+      body #section #settings .toggle-details {
+        cursor: pointer; }
+        body #section #settings .toggle-details::hover {
+          opacity: 0.8; }
     body #section #dashboard {
       height: 100%;
       width: 75%;
       position: relative;
       z-index: 2;
       border-left: 1px solid rgba(43, 43, 43, 0.2); }
+      body #section #dashboard #donut-view {
+        position: absolute;
+        top: 35px;
+        right: 0;
+        z-index: 10001;
+        background: rgba(0, 0, 0, 0.75);
+        width: 350px;
+        padding: 15px; }
+        body #section #dashboard #donut-view #donut-info ul {
+          margin: 0;
+          list-style: none; }
+        body #section #dashboard #donut-view #donut {
+          padding-top: 1em; }
+        body #section #dashboard #donut-view ul {
+          list-style: none; }
+          body #section #dashboard #donut-view ul li {
+            margin: 0;
+            padding: 10px 0;
+            border-bottom: 1px solid #666;
+            color: #EEE; }
+            body #section #dashboard #donut-view ul li h3 {
+              text-shadow: 0 1px #000; }
       body #section #dashboard #graph {
         z-index: 1001;
         position: relative;
@@ -4741,7 +4767,7 @@ body {
           border-bottom: 1px solid #FEFEFE; }
     body #section #sidebar {
       border-right: 1px solid white;
-      width: 350px;
+      width: 382px;
       height: 100%;
       z-index: 1; }
       body #section #sidebar .sidebar {

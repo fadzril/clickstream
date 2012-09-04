@@ -3,36 +3,53 @@ var page        = require('models/pages_model');
 var pages       = require('models/pages_collection');
 var View        = require('./view');
 var template    = require('./templates/home');
-
 module.exports = View.extend({
     id: 'home-view',
     template: template,
 
     events: {
         "dragstart .nav li a": "dragStart",
-        "click .nav li a"    : "reset"
+        "click .nav li a"    : "resetPath"
     },
 
     initialize: function(options) {
-        _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne', 'reset');
+        _.bindAll(this, 'getRenderData', 'render', 'dragStart', 'addEach', 'addOne', 'resetPath');
         this.state = (options !== undefined) ? options.page : 'pages';
         this.getRenderData();
     },
 
     getRenderData: function() {
+        var self = this;
         this.collection = Application.Collections[this.state] !== undefined ? 
             Application.Collections[this.state] : new pages();
 
-        if (!this.collection.toJSON().length) {
-            this.collection.fetch();
-            this.collection.bind('reset', this.addEach, this);
+        if (this.collection.toJSON().length == 0) {
+            var nodeID;
+            switch(this.state){
+                case 'keyword':
+                    nodeID = 2;
+                break;
+                case 'product':
+                    nodeID = 3
+                break;
+                default: 
+                    nodeID = 1;
+            }
+            this.collection.fetch( { data: $.param({ nodeID : nodeID}) });
+            this.collection.bind('reset', this.addEach, self);
         }
         return this;
     },
 
     render: function() {
-        this.data = this.collection.toJSON();
-        this.$el.html(this.template({data: this.data, page: this.page}));
+        var data;
+        if (this.data !== undefined){
+            data = this.data;
+        }
+        else{
+            data = this.collection.toJSON();
+        }
+        this.$el.html(this.template({data: data, page: this.page}));
         return this;
     },
 
@@ -51,18 +68,31 @@ module.exports = View.extend({
         return e.originalEvent.dataTransfer.setData('Text', item);
     },
 
-    reset: function() {
+    resetPath: function() {
         var graph = $('#graph');
-        if (graph.length) {
+            // path  = window.location.hash.replace('#', '');
+        if (graph.length) {  
             graph.slideUp();
         }
-        Application.View.Dashboard.render();
+        // Application.View.Dashboard.render();
+        // return Application.Router.navigate(path, {trigger: true, replace: true});
     },
 
     addEach: function(item) {
-        Application.Collections.pages.add(_.first(_.pluck(item.toJSON(), 'initalNodes')));
-        Application.Collections.keyword.add(_.first(_.pluck(item.toJSON(), 'initialKeywordNode')));
-        Application.Collections.product.add(_.first(_.pluck(item.toJSON(), 'initialProductNode')));
+        var key = '';
+        switch(this.state){
+            case 'keyword':
+                key = 'initialKeywordNode';
+            break;
+            case 'product':
+                key = 'initialProductNode';
+            break;
+            default:
+                key = 'initalNodes';
+            break;
+        }
+        this.data = _.first(_.pluck(item.toJSON(), key));
+        Application.Collections[this.state].add(this.data);
         return this.render();
     },
 

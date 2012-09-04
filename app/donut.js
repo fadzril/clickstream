@@ -7,9 +7,6 @@ module.exports = Donut = function Donut() {
     this.append = false;
     return this;
 };
-// Donut.prototype.init = function(){
-//     console.log('heheh');
-// }
 
 Donut.prototype.init = function(dataAdj){
     this.width = 150,

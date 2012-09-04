@@ -9,7 +9,7 @@ module.exports = Backbone.Router.extend({
 
   },
 
-  home: function() {
+  home: function(params) {
     var dashboard = Application.View.Dashboard,
         side      = Application.View.Sidebar,
         header    = Application.View.Header;

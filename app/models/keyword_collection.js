@@ -9,7 +9,7 @@ module.exports = Collections.extend({
     },
 
     setPages: function(attributes) {
-    	this.add('pages', attributes['initalNodes'])
+    	this.add('pages', attributes['initialKeywordNode'])
     },
 
     setSearch: function() {
